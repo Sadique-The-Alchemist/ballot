@@ -10,7 +10,7 @@ defmodule Ballot.Poll.Candidate do
     field :name, :string
     field :symbol, :string
     field :image_url, :string
-    field :pole_count, :integer
+    field :poll_count, :integer
     belongs_to :vote, Ballot.Poll.Vote
     timestamps()
   end

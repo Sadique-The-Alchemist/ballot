@@ -17,7 +17,10 @@ defmodule Ballot.Application do
       # Start a worker by calling: Ballot.Worker.start_link(arg)
       # {Ballot.Worker, arg},
       # Start to serve requests, typically the last entry
-      BallotWeb.Endpoint
+      BallotWeb.Endpoint,
+      {DynamicSupervisor, strategy: :one_for_one, name: Ballot.UnitRunner},
+      {Registry, keys: :unique, name: Registry.PollSup},
+      {Registry, keys: :unique, name: Registry.Pollboy}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
