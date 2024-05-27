@@ -18,6 +18,7 @@ defmodule BallotWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    live "/:vote_id", PollLive
   end
 
   # Other scopes may use custom stacks.

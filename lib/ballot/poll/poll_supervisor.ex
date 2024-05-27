@@ -3,8 +3,7 @@ defmodule Ballot.Poll.PollSupervisor do
 
   alias Ballot.Poll.Pollboy
   def start_link(args) do
-    id = Keyword.get(args, :id)
-     Supervisor.start_link(__MODULE__, args, name: name(id) )
+     Supervisor.start_link(__MODULE__, args)
   end
   def init(init_arg) do
     children = [
@@ -13,9 +12,5 @@ defmodule Ballot.Poll.PollSupervisor do
     Supervisor.init(children,strategy: :one_for_one)
   end
 
-  defp name(id), do: String.to_atom("vote_sup_#{id}")
 
-  defp via(id) do
-    {:via, Registry, {Registry.PollSup, id}}
-  end
 end

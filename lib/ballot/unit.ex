@@ -1,7 +1,6 @@
 defmodule Ballot.Unit do
   use DynamicSupervisor
   alias Ballot.Poll.Pollboy
-  alias Ballot.Poll.Pollboy
   require Logger
 
   def start_link(args) do

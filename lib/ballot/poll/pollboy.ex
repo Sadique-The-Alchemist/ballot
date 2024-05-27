@@ -5,7 +5,7 @@ defmodule Ballot.Poll.Pollboy do
   def start_link(args) do
     id = Keyword.get(args, :id)
     Logger.info("Voting initiates")
-    GenServer.start_link(__MODULE__,args, name: name(id))
+    GenServer.start_link(__MODULE__,args, name: via(id))
   end
   def init(args) do
     Logger.info("Voting initiates init")
@@ -19,20 +19,21 @@ defmodule Ballot.Poll.Pollboy do
     {:noreply, state}
   end
   def get_state(id) do
-    GenServer.call(name(id),:get_state)
+    GenServer.call(get_name(id),:get_state)
   end
   def get_symbols(id) do
-    GenServer.call(name(id), :symbols)
+    GenServer.call(get_name(id), :symbols)
   end
 
   def get_votes(id) do
-    GenServer.call(name(id), :get_votes)
+
+    GenServer.call(get_name(id), :get_votes)
   end
   def mark_vote(id, symbol) do
-    GenServer.cast(name(id),{:poll, symbol})
+    GenServer.cast(get_name(id),{:poll, symbol})
   end
   def raise_error(id) do
-    GenServer.cast(name(id), :raise)
+    GenServer.cast(get_name(id), :raise)
   end
   def handle_cast(:raise, state) do
     raise "Error"
@@ -74,7 +75,14 @@ defmodule Ballot.Poll.Pollboy do
     Map.put(candidate, :poll_count, count+1)
   end
   defp name(id), do: String.to_atom("vote_#{id}")
+  defp get_name(id) do
+   case Registry.lookup(Registry.Pollboy, name(id))|>Enum.at(0) do
+    {pid, _} -> pid
+    wrong-> wrong
+   end
+
+  end
   defp via(id) do
-    {:via, Registry, {Registry.Pollboy, id}}
+    {:via, Registry, {Registry.Pollboy, name(id)}}
   end
 end

@@ -19,7 +19,6 @@ defmodule Ballot.Application do
       # Start to serve requests, typically the last entry
       BallotWeb.Endpoint,
       {DynamicSupervisor, strategy: :one_for_one, name: Ballot.UnitRunner},
-      {Registry, keys: :unique, name: Registry.PollSup},
       {Registry, keys: :unique, name: Registry.Pollboy}
     ]
 
