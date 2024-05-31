@@ -19,6 +19,7 @@ defmodule BallotWeb.Router do
 
     get "/", PageController, :home
     live "/:vote_id", PollLive
+    live "/results/:vote_id", ResultLive
   end
 
   # Other scopes may use custom stacks.

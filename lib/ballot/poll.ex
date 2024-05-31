@@ -20,4 +20,7 @@ defmodule Ballot.Poll do
   def mark_vote(vote_id, symbol) do
     Pollboy.mark_vote(vote_id,symbol)
   end
+  def get_votes(vote_id) do
+    Pollboy.get_votes(vote_id)
+  end
 end
