@@ -6,7 +6,6 @@ config :ballot, Ballot.Repo,
   password: "postgres",
   hostname: "localhost",
   database: "ballot_dev",
-  port: 7432,
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
